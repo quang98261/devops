@@ -1,0 +1,99 @@
+.reports-container {
+  padding: 50px 5%;
+  background: linear-gradient(135deg, #f8fbff 0%, #eef3f7 100%);
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+/* --- Tiêu đề --- */
+.reports-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e3799;
+  margin-bottom: 40px;
+  letter-spacing: 0.5px;
+}
+
+/* --- Các thẻ thống kê --- */
+.report-cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-bottom: 50px;
+}
+
+.report-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  width: 260px;
+  text-align: center;
+  padding: 30px 20px;
+  transition: all 0.3s ease;
+  border-top: 6px solid transparent;
+}
+
+.report-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.report-card h4 {
+  color: #2f3640;
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.report-card p {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.report-card .revenue {
+  color: #00b894;
+}
+
+.report-card .orders {
+  color: #0984e3;
+}
+
+.report-card .customers {
+  color: #e17055;
+}
+
+/* --- Biểu đồ --- */
+.chart-section {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.chart-section h3 {
+  text-align: center;
+  color: #2d3436;
+  margin-bottom: 25px;
+  font-weight: 600;
+  font-size: 22px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .report-card {
+    width: 100%;
+  }
+
+  .chart-section {
+    padding: 25px;
+  }
+
+  .reports-title {
+    font-size: 26px;
+  }
+}
