@@ -1,14 +1,32 @@
-FROM maven:3.9.4-eclipse-temurin-17 AS build
-WORKDIR /app
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package -DskipTests
+# Sử dụng JDK 17
+FROM openjdk:17-jdk-slim
 
-FROM eclipse-temurin:17-jdk
+# Cài đặt locale UTF-8
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+
+# Thư mục làm việc
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
+
+# Copy Maven Wrapper và pom.xml
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+
+# Quyền thực thi mvnw
+RUN chmod +x mvnw
+
+# Tải dependencies (cache)
+RUN ./mvnw dependency:go-offline
+
+# Copy source code
+COPY src ./src
+
+# Build ứng dụng
+RUN ./mvnw clean package -DskipTests
+
+# Expose cổng 8080
 EXPOSE 8080
-COPY wait-for-db.sh /wait-for-db.sh
-RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
-RUN chmod +x /wait-for-db.sh
-ENTRYPOINT ["/wait-for-db.sh","java","-jar","app.jar"]
+
+# ✅ FIX LỖI Ở ĐÂY
+ENTRYPOINT ["sh", "-c", "java -jar target/*.jar"]
