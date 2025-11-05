@@ -1,5 +1,7 @@
 # Sử dụng JDK 17
-FROM openjdk:17-jdk-slim
+# FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
+
 
 # Cài đặt locale UTF-8
 ENV LANG=C.UTF-8
