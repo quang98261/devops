@@ -1,3 +1,4 @@
+version: '3.9'
 
 services:
   mysql:
@@ -6,7 +7,7 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: appdb
+      MYSQL_DATABASE: quanlyquancf
       MYSQL_USER: appuser
       MYSQL_PASSWORD: apppass
     ports:
@@ -14,7 +15,7 @@ services:
     volumes:
       - dbdata:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -prootpassword"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -prootpassword || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -30,17 +31,21 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://spring-mysql:3306/appdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_URL=jdbc:mysql://spring-mysql:3306/quanlyquancf?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       - SPRING_DATASOURCE_USERNAME=appuser
       - SPRING_DATASOURCE_PASSWORD=apppass
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL8Dialect
+      - SPRING_MAIN_ALLOW_CIRCULAR_REFERENCES=true
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     networks:
       - app-network
 
-  frontend: 
-    build: ./spring_Fe
+  frontend:
+    build:
+      context: ./spring_Fe
     container_name: react-frontend
     restart: unless-stopped
     ports:
@@ -49,8 +54,10 @@ services:
       - backend
     networks:
       - app-network
+
 volumes:
   dbdata:
+
 networks:
   app-network:
     driver: bridge

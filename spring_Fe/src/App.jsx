@@ -10,6 +10,7 @@ import MenuAdmin from "./pages/Menu/MenuAdmin";
 import TablesAdmin from "./pages/Tables/TablesAdmin";
 import TableBooking from "./pages/Booking/TableBooking";
 import OrdersAdmin from "./pages/Orders/OrdersAdmin";
+import RevenueAdmin from "./pages/Reports/ReportsAdmin.jsx";
 // import ReportsAdmin from "./pages/Reports/ReportsAdmin";
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
           <Route path="/admin/tables" element={<TablesAdmin />} />
           <Route path="/booking" element={<TableBooking />} />
           <Route path="/admin/orders" element={<OrdersAdmin />} />
-          {/* <Route path="/admin/reports" element={<ReportsAdmin />} /> */}
+           <Route path="/reports" element={<RevenueAdmin />} />
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </Layout>

@@ -25,7 +25,7 @@ const Header = () => {
         <a style={{textDecoration: 'none', color: '#333'}} href="/admin/menu">Menu</a>
         <a style={{textDecoration: 'none', color: '#333'}} href="/admin/tables">Tables</a>
         <a style={{textDecoration: 'none', color: '#333'}} href="/admin/orders">Orders</a>
-        {/* <a style={{textDecoration: 'none', color: '#333'}} href="/admin/reports">Reports</a> */}
+         <a style={{textDecoration: 'none', color: '#333'}} href="/reports">Reports</a>
       </nav>
 
       <div className={styles.logo}>

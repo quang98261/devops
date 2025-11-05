@@ -51,9 +51,9 @@ export default function TablesAdmin() {
           <option value="OCCUPIED">Đang sử dụng</option>
           <option value="PAID">Đã thanh toán</option>
         </select>
-        <button className="btn btn-primary">
-          Thêm bàn
-        </button>
+          <button className="btn btn-primary" onClick={handleAdd}>
+              Thêm bàn
+          </button>
       </div>
 
       <table className="table">
