@@ -30,3 +30,6 @@ COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
