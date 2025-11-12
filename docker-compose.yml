@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   mysql:
     image: mysql:8.0
@@ -6,14 +8,13 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: quanlyquancf
-      MYSQL_USER: root
-      MYSQL_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"  # bảo mật hơn
     ports:
-      - "3307:3306"
+      - "3307:3306"   # Dùng cổng 3307 bên ngoài để không trùng XAMPP
     volumes:
       - dbdata:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -prootpassword || exit 1"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -prootpassword || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -26,18 +27,18 @@ services:
       dockerfile: Dockerfile
     container_name: spring-backend
     restart: unless-stopped
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://spring-mysql:3306/quanlyquancf?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL8Dialect
-      - SPRING_MAIN_ALLOW_CIRCULAR_REFERENCES=true
     depends_on:
       mysql:
         condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://spring-mysql:3306/quanlyquancf?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      SPRING_MAIN_ALLOW_CIRCULAR_REFERENCES: "true"
+    ports:
+      - "8080:8080"
     networks:
       - app-network
 
@@ -46,10 +47,10 @@ services:
       context: ./spring_Fe
     container_name: react-frontend
     restart: unless-stopped
-    ports:
-      - "3000:80"
     depends_on:
       - backend
+    ports:
+      - "3000:80"
     networks:
       - app-network
 
